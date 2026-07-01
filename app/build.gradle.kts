@@ -10,12 +10,12 @@ plugins {
 }
 
 android {
-  namespace = "com.example"
+  namespace = "com.aistudio.ultimate"
   compileSdk { version = release(36) { minorApiLevel = 1 } }
 
   defaultConfig {
-    applicationId = "com.example"
-    minSdk = 24
+    applicationId = "com.aistudio.ultimate"
+    minSdk = 26
     targetSdk = 36
     versionCode = 1
     versionName = "1.0"
@@ -111,6 +111,19 @@ dependencies {
   implementation(libs.okhttp)
   // implementation(libs.play.services.location)
   implementation(libs.retrofit)
+  implementation(project(":core"))
+  implementation(project(":common"))
+  implementation(project(":designsystem"))
+  implementation(project(":data"))
+  implementation(project(":domain"))
+  implementation(project(":ai-engine"))
+  implementation(project(":providers"))
+  implementation(project(":agents"))
+  implementation(project(":plugins"))
+  implementation(project(":features:chat"))
+  implementation(project(":features:workspace"))
+  implementation(project(":features:models"))
+  implementation(project(":features:settings"))
   testImplementation(libs.androidx.compose.ui.test.junit4)
   testImplementation(libs.androidx.core)
   testImplementation(libs.androidx.junit)

@@ -1,0 +1,63 @@
+def modules = ["core", "common", "designsystem", "data", "domain", "ai-engine", "providers", "agents", "plugins", "features/chat", "features/workspace", "features/models", "features/settings"]
+
+task setupModules {
+    doLast {
+        modules.each { mod ->
+            def dir = file(mod)
+            dir.mkdirs()
+            def srcDir = file("${mod}/src/main/java/com/aistudio/ultimate/${mod.replaceAll('/', '.').replaceAll('-', '')}")
+            srcDir.mkdirs()
+            
+            def buildFile = file("${mod}/build.gradle.kts")
+            def ns = "com.aistudio.ultimate.${mod.replaceAll('/', '.').replaceAll('-', '')}"
+            if (mod == "domain") {
+                buildFile.text = """plugins {
+    alias(libs.plugins.kotlin.android)
+}
+android {
+    namespace = "${ns}"
+    compileSdk = 35
+    defaultConfig {
+        minSdk = 26
+    }
+}
+dependencies {
+    implementation(libs.kotlinx.coroutines.core)
+}"""
+            } else {
+                buildFile.text = """plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+}
+android {
+    namespace = "${ns}"
+    compileSdk = 35
+    defaultConfig {
+        minSdk = 26
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+dependencies {
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.kotlinx.coroutines.core)
+}"""
+            }
+        }
+        
+        def settingsFile = file('settings.gradle.kts')
+        def currentSettings = settingsFile.text
+        modules.each { mod ->
+            def includeName = mod.replace('/', ':')
+            if (!currentSettings.contains("include(\":${includeName}\")")) {
+                settingsFile.append("\ninclude(\":${includeName}\")")
+            }
+        }
+    }
+}

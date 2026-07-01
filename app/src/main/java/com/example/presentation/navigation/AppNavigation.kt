@@ -1,9 +1,12 @@
 package com.example.presentation.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -31,8 +34,10 @@ fun AppNavigation() {
 
                 val items = listOf(
                     Screen.Dashboard to Icons.Default.Home,
-                    Screen.Workspace to Icons.Default.List,
-                    Screen.ModelManager to Icons.Default.Settings
+                    Screen.Workspace to Icons.AutoMirrored.Filled.List,
+                    Screen.ModelManager to Icons.Default.Settings,
+                    Screen.AgentStudio to Icons.Default.Person,
+                    Screen.Settings to Icons.Default.Settings
                 )
 
                 items.forEach { (screen, icon) ->
@@ -71,6 +76,26 @@ fun AppNavigation() {
             composable(Screen.ModelManager.route) {
                 ModelManagerScreen()
             }
+            composable(Screen.AgentStudio.route) {
+                AgentStudioScreen()
+            }
+            composable(Screen.Settings.route) {
+                SettingsScreen()
+            }
         }
+    }
+}
+
+@Composable
+fun AgentStudioScreen() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = androidx.compose.ui.Alignment.Center) {
+        Text("Agent Studio")
+    }
+}
+
+@Composable
+fun SettingsScreen() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = androidx.compose.ui.Alignment.Center) {
+        Text("Settings")
     }
 }
