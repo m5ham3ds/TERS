@@ -1,5 +1,7 @@
 package com.aistudio.ultimate.domain
 
+import kotlinx.coroutines.flow.Flow
+
 /**
  * Represents an AI Model configuration.
  */
@@ -55,4 +57,24 @@ interface Agent {
 interface MemoryManager {
     suspend fun saveContext(context: String)
     suspend fun getRelevantContext(query: String): String
+}
+
+data class ModelMetrics(
+    val memoryUsageMb: Int,
+    val tokensPerSecond: Float
+)
+
+/**
+ * Manages the runtime lifecycle of local AI models.
+ */
+interface LocalModelEngine {
+    suspend fun startModel(modelId: String)
+    suspend fun stopModel(modelId: String)
+    suspend fun isModelRunning(modelId: String): Boolean
+    fun getModelMetrics(modelId: String): Flow<ModelMetrics>
+}
+
+interface LocalModelPreferencesRepository {
+    fun getRunningModels(): Flow<Set<String>>
+    suspend fun saveRunningModels(models: Set<String>)
 }

@@ -36,3 +36,40 @@ class ContextManager : MemoryManager {
         return memoryStore.joinToString("\n")
     }
 }
+
+/**
+ * Manages the execution and lifecycle of local models.
+ */
+class AiEngineLocalModelRuntime : com.aistudio.ultimate.domain.LocalModelEngine {
+    private val runningModels = mutableSetOf<String>()
+
+    override suspend fun startModel(modelId: String) {
+        runningModels.add(modelId)
+    }
+
+    override suspend fun stopModel(modelId: String) {
+        runningModels.remove(modelId)
+    }
+
+    override suspend fun isModelRunning(modelId: String): Boolean {
+        return runningModels.contains(modelId)
+    }
+
+    override fun getModelMetrics(modelId: String): Flow<com.aistudio.ultimate.domain.ModelMetrics> = kotlinx.coroutines.flow.flow {
+        while (true) {
+            val isRunning = runningModels.contains(modelId)
+            if (isRunning) {
+                // Simulate metrics
+                emit(
+                    com.aistudio.ultimate.domain.ModelMetrics(
+                        memoryUsageMb = (1024..4096).random(),
+                        tokensPerSecond = (10..50).random().toFloat()
+                    )
+                )
+            } else {
+                emit(com.aistudio.ultimate.domain.ModelMetrics(0, 0f))
+            }
+            kotlinx.coroutines.delay(1000)
+        }
+    }
+}
