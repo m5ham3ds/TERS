@@ -22,6 +22,7 @@ class GetModelsUseCaseTest {
         val fakeRepository = object : ModelRepository {
             override fun getModels(): Flow<List<AiModel>> = flowOf(fakeModels)
             override suspend fun downloadModel(model: AiModel) {}
+            override suspend fun deleteModel(model: AiModel) {}
         }
         
         val useCase = GetModelsUseCase(fakeRepository)
