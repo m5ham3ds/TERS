@@ -19,7 +19,7 @@ object AppViewModelProvider {
         }
         initializer {
             ModelsViewModel(
-                aiStudioApplication().container.getModelsUseCase
+                aiStudioApplication().container.modelRepository
             )
         }
     }

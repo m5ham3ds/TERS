@@ -16,6 +16,28 @@ class ModelRepositoryImpl(
     }
 
     override suspend fun downloadModel(model: AiModel) {
-        // Implement model downloading via WorkManager
+        val entity = com.example.data.local.AiModelEntity(
+            id = model.id,
+            name = model.name,
+            providerId = model.providerId,
+            version = model.version,
+            capacity = model.capacity,
+            format = model.format.name,
+            isLocal = model.isLocal
+        )
+        modelDao.insertModels(listOf(entity))
+    }
+
+    override suspend fun deleteModel(model: AiModel) {
+        val entity = com.example.data.local.AiModelEntity(
+            id = model.id,
+            name = model.name,
+            providerId = model.providerId,
+            version = model.version,
+            capacity = model.capacity,
+            format = model.format.name,
+            isLocal = model.isLocal
+        )
+        modelDao.deleteModel(entity)
     }
 }

@@ -13,4 +13,7 @@ interface ModelDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertModels(models: List<AiModelEntity>)
+
+    @androidx.room.Delete
+    suspend fun deleteModel(model: AiModelEntity)
 }

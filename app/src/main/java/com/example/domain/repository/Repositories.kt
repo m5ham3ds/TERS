@@ -13,4 +13,5 @@ interface ProviderRepository {
 interface ModelRepository {
     fun getModels(): Flow<List<AiModel>>
     suspend fun downloadModel(model: AiModel)
+    suspend fun deleteModel(model: AiModel)
 }
