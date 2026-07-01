@@ -28,6 +28,9 @@ jobs:
     - name: Generate Debug Keystore
       run: keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "C=US, O=Android, CN=Android Debug"
       
+    - name: Make gradlew executable
+      run: chmod +x gradlew
+
     - name: Build with Gradle
       run: ./gradlew assembleDebug testDebugUnitTest
       
